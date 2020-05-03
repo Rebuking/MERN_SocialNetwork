@@ -21,7 +21,7 @@ router.post(
     check(
       "password",
       "Please enter a password with 6 or morecharacters"
-    ).isLength({ min: 6 }),
+    ).isLength({ min: 6 })
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -41,13 +41,13 @@ router.post(
       const avatar = gravatar.url(email, {
         s: "200",
         r: "pg",
-        d: "mm",
+        d: "mm"
       });
       user = new User({
         name,
         email,
         avatar,
-        password,
+        password
       });
       // Encrypt the passowrd
       const salt = await bcrypt.genSalt(10); // more rounds are more SECURE but SLOWER
@@ -60,8 +60,8 @@ router.post(
       // Return JsonToken
       const payload = {
         user: {
-          id: user.id,
-        },
+          id: user.id
+        }
       };
 
       jwt.sign(
