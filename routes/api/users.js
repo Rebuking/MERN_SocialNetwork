@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config =require("config");
 const { check, validationResult} = require("express-validator/check");
 
 // adding user Schema
@@ -49,7 +51,22 @@ check("password", "Please enter a password with 6 or morecharacters").isLength({
          await user.save();
 
         // Return JsonToken
-    res.send("User Registrated");
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
+
+        jwt.sign(
+            payload, 
+            config.get("jwtSecret"),
+            {expiresIn: 360000 },
+            (err, token) => {
+                if (err) throw err;
+                res.json({ token });
+            });
+
+        // res.send("User Registrated"); - OLD Response from the BE
             
         } catch (err) {
             console.error(err.message);
