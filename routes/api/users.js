@@ -9,6 +9,8 @@ const { check, validationResult} = require("express-validator/check");
 // adding user Schema
 const User = require("../../models/User");
 
+
+// Saining In
 // @route   Post api/users
 // @desc    Test route
 // @access  Public
