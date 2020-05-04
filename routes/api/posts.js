@@ -21,14 +21,14 @@ router.post(
 		try {
 			const user = await User.findById(req.user.id).select("-password");
 
-			const newPost = {
-				text: req.body,
+			const newPost = new Post({
+				text: req.body.text,
 				name: user.name,
 				avatar: user.name,
 				user: req.user.id
-			};
+			});
 			// Create
-			const post = newPost.save();
+			const post = await newPost.save();
 
 			res.json(post);
 		} catch (err) {
